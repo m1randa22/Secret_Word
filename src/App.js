@@ -1,10 +1,8 @@
-//CSS
 import "./App.css";
-//React
+
 import { useCallback, useEffect, useState } from "react";
-//Data
 import { wordsList } from "./data/words";
-//Components
+
 import StartScreen from "./components/StartScreen";
 import Game from "./components/Game";
 import GameOver from "./components/GameOver";
@@ -37,7 +35,6 @@ function App() {
 
   };
 
-  //Start
   const startGame = () => {
     const { word, category } = pickWordAndCategory();
 
@@ -53,13 +50,26 @@ function App() {
     setGameStage(stages[1].name);
   };
 
-  //Process
   const verifyLetter = (letter) => {
-    console.log(letter);
+    const normalizedLetter = letter.toLowerCase();
 
+    if(guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)){
+      return;
+    }
+
+    if(letters.includes(normalizedLetter)){
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters, normalizedLetter
+      ]);
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters, normalizedLetter
+      ]);
+
+      setGuesses((actualGuesses) => actualGuesses -1);
+    }
   };
 
-  //Restart
   const retry = () => {
     setGameStage(stages[0].name);
   };
